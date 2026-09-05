@@ -3,49 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    
+    <title>SwiftApply - Login</title>
 </head>
+
 <body class="main">
-    <form  class="signup">
-        <label class="user" for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
+    <h1>Login to your SwiftApply account</h1>
+    <form class="login" id="loginForm">
+
+        <label for="login">Email:</label>
+        <input type="email" id="login" name="login" required>
+        <br><br>
+
         <label for="password">Password:</label>
-        <input type="number" id="phone" name="phone" required><br>
-        <label > Contact Number</label>
-        <input type="password" id="password" name="password" required><br>
-        <label > Select your Preferences</label>
-        
-        <label><input type="checkbox" name="frontend-developer" value="frontend-developer"> Frontend Developer<br>
-        <label>
-            <input type="checkbox" name="backend-developer" value="backend-developer"> Backend Developer<br>
-        <label>
-            <input type="checkbox" name="fullstack-developer" value="fullstack-developer"> Fullstack Developer</label><br>
-       
-        <label>
-            <input type="checkbox" name="data-scientist" value="data-scientist"> Data Scientist<br>
-        </label>
-        <label>
-            <input type="checkbox" name="ui-ux-designer" value="ui-ux-designer"> UI/UX Designer</br>
-        </label>
-        <label>
-            <input type="checkbox" name="motion-graphics-designer" value="motion-graphics-designer"> Motion Graphics Designer</label>
-        </label>
-        <br>
-        <label>Your Experience:</label>
-        <label> <input type="radio" name="Fresher" value="Fresher"> student with no experience</label>
-        <label> <input type="radio" name="c2" value="c2"> 1 to 2 years</label>
-        <label> <input type="radio" name="c3" value="c3"> Almost 5 to 6years</label>
-        <label> <input type="radio" name="c4" value="c4">  6 to 8 years</label>
-        <label> <input type="radio" name="c5" value="c5"> more than 8 years</label><br>
-        <button type="submit"> 
-            Sign Up
+        <input type="password" id="password" name="password" required>
+        <br><br>
+
+        <button type="submit">
+            Login
         </button>
-        <button type="reset">
-            Reset
-        </button>
+
+        <p id="message"></p>
+
     </form>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const login = document.getElementById("login").value;
+            const password = document.getElementById("password").value;
+
+            const data = {
+                login: login,
+                password: password
+            };
+
+            try {
+                const response = await fetch("http://127.0.0.1:5000/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert("Login successful!");
+                    document.getElementById("message").textContent =
+                        "Welcome back, " + result.user.name + "!";
+                } else {
+                    alert(result.error);
+                    document.getElementById("message").textContent =
+                        result.error;
+                }
+
+            } catch (error) {
+                alert("Could not connect to the server.");
+                document.getElementById("message").textContent =
+                    "Could not connect to the server.";
+            }
+
+        });
+    </script>
+
 </body>
 </html>
