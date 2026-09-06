@@ -342,3 +342,21 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+@media (max-width: 480px) {
+  body {
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .card {
+    min-height: auto;
+  }
+
+  .form-side {
+    padding: 32px 22px;
+  }
+
+  .social-row {
+    flex-direction: column;
+  }
+}
