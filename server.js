@@ -11,6 +11,7 @@ const path = require('path');
 const passport = require('passport');
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3000;
 const USERS_FILE = path.join(__dirname, 'users.json');
 const SALT_ROUNDS = 10; // how much "scrambling" work goes into hashing each password
