@@ -23,7 +23,7 @@ body {
   background: radial-gradient(circle at 20% 20%, #101f33 0%, var(--navy-deep) 60%);
   color: var(--ink);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   min-height: 100vh;
   padding: 24px;

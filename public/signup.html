@@ -41,6 +41,15 @@
       </div>
 
       <div class="field" style="margin-top:18px;">
+  <div class="field-error">Please fill in this field.</div>
+  <label for="phone">Contact Number</label>
+  <div class="input-row">
+    <input type="tel" id="phone" name="phone" autocomplete="tel" />
+    <span class="icon">📱</span>
+  </div>
+</div>
+
+      <div class="field" style="margin-top:18px;">
         <div class="field-error">Please fill in this field.</div>
         <label for="password">Password</label>
         <div class="input-row">
@@ -48,6 +57,29 @@
           <span class="icon">🔒</span>
         </div>
       </div>
+
+      <div style="margin-top:18px;">
+  <label style="display:block; font-size:13px; color:var(--ink-dim); margin-bottom:8px;">Job Preferences</label>
+  <div style="display:flex; flex-direction:column; gap:6px; font-size:14px; color:var(--ink);">
+    <label><input type="checkbox" name="preference" value="frontend-developer" /> Frontend Developer</label>
+    <label><input type="checkbox" name="preference" value="backend-developer" /> Backend Developer</label>
+    <label><input type="checkbox" name="preference" value="fullstack-developer" /> Fullstack Developer</label>
+    <label><input type="checkbox" name="preference" value="data-scientist" /> Data Scientist</label>
+    <label><input type="checkbox" name="preference" value="ui-ux-designer" /> UI/UX Designer</label>
+    <label><input type="checkbox" name="preference" value="motion-graphics-designer" /> Motion Graphics Designer</label>
+  </div>
+</div>
+
+<div style="margin-top:18px;">
+  <label style="display:block; font-size:13px; color:var(--ink-dim); margin-bottom:8px;">Your Experience</label>
+  <div style="display:flex; flex-direction:column; gap:6px; font-size:14px; color:var(--ink);">
+    <label><input type="radio" name="experience" value="Fresher" /> Student with no experience</label>
+    <label><input type="radio" name="experience" value="1-2 years" /> 1 to 2 years</label>
+    <label><input type="radio" name="experience" value="5-6 years" /> Almost 5 to 6 years</label>
+    <label><input type="radio" name="experience" value="6-8 years" /> 6 to 8 years</label>
+    <label><input type="radio" name="experience" value="8+ years" /> More than 8 years</label>
+  </div>
+</div>
 
       <div style="margin-top:26px; display:flex; flex-direction:column; gap:18px;">
         <button type="submit" class="btn btn-primary">Sign Up</button>

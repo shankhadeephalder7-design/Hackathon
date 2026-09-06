@@ -78,7 +78,9 @@ async function submitForm(form, endpoint, onSuccess) {
   btn.classList.add('loading');
   btn.disabled = true;
 
-  const data = Object.fromEntries(new FormData(form).entries());
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
+  data.preferences = formData.getAll('preference');
 
   try {
     const res = await fetch(endpoint, {

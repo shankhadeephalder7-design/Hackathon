@@ -49,7 +49,7 @@ passport.deserializeUser((id, done) => {
 
 // ---------- Sign up ----------
 app.post('/api/signup', async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, phone, preferences, experience } = req.body;
 
   if (!username || !email || !password) {
     return res.status(400).json({ error: 'Please fill in every field.' });
@@ -71,6 +71,9 @@ app.post('/api/signup', async (req, res) => {
     username,
     email: email.toLowerCase(),
     passwordHash,
+    phone: phone || '',
+    preferences: preferences || [],
+    experience: experience || '',
     provider: 'local',
     createdAt: new Date().toISOString()
   };
