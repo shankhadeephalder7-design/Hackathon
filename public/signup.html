@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sign up</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="card">
+  <div class="side-panel">
+    <div class="content" style="text-align:left;">
+      <h2>Join Us<br/>Today!</h2>
+      <p>Create an account to get started.</p>
+    </div>
+  </div>
+
+  <div class="form-side">
+    <h1>Sign Up</h1>
+
+    <form id="signup-form" novalidate>
+      <div class="field">
+        <div class="field-error">Please fill in this field.</div>
+        <label for="username">Username</label>
+        <div class="input-row">
+          <input type="text" id="username" name="username" autocomplete="username" />
+          <span class="icon">👤</span>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:18px;">
+        <div class="field-error">Please fill in this field.</div>
+        <label for="email">Email</label>
+        <div class="input-row">
+          <input type="email" id="email" name="email" autocomplete="email" />
+          <span class="icon">✉</span>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:18px;">
+        <div class="field-error">Please fill in this field.</div>
+        <label for="password">Password</label>
+        <div class="input-row">
+          <input type="password" id="password" name="password" autocomplete="new-password" data-minlength="8" />
+          <span class="icon">🔒</span>
+        </div>
+      </div>
+
+      <div style="margin-top:26px; display:flex; flex-direction:column; gap:18px;">
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <p class="switch-line">Already have an account? <a href="login.html">Login</a></p>
+
+        <div class="divider">or continue with</div>
+
+        <div class="social-row">
+          <a class="btn social-btn" href="/auth/google">
+            <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.1 8 3l5.7-5.7C34.5 6 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.9 1.1 8 3l5.7-5.7C34.5 6 29.5 4 24 4c-7.5 0-13.9 4.3-17.7 10.7z"/><path fill="#4CAF50" d="M24 44c5.3 0 10.2-2 13.9-5.4l-6.4-5.4C29.4 34.9 26.8 36 24 36c-5.3 0-9.7-3.1-11.3-7.5l-6.5 5C9.9 39.6 16.4 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.6l6.4 5.4C41 35.9 44 30.4 44 24c0-1.3-.1-2.7-.4-3.5z"/></svg>
+            Google
+          </a>
+          <a class="btn social-btn" href="/auth/linkedin">
+            <svg viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.45 20.45h-3.56v-5.58c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.15 1.45-2.15 2.94v5.68H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+            LinkedIn
+          </a>
+          <a class="btn social-btn" href="/auth/facebook">
+            <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg>
+            Facebook
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>

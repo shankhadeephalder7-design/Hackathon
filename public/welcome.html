@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Welcome</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="card" style="grid-template-columns:1fr; text-align:center; padding:60px;">
+    <h1 id="greeting">Welcome!</h1>
+    <p style="color:var(--ink-dim)">You're signed in.</p>
+    <button class="btn btn-primary" style="max-width:160px; margin:24px auto 0;" id="logout-btn">Log out</button>
+  </div>
+
+<script>
+  fetch('/api/me').then(r => r.json()).then(data => {
+    if (data.loggedIn) {
+      document.getElementById('greeting').textContent = `Welcome, ${data.username}!`;
+    } else {
+      window.location.href = '/login.html';
+    }
+  });
+
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    fetch('/api/logout', { method: 'POST' }).then(() => window.location.href = '/login.html');
+  });
+</script>
+</body>
+</html>
