@@ -34,15 +34,24 @@ body {
   position: relative;
   width: min(880px, 100%);
   min-height: 480px;
-  background: var(--navy-panel);
+
+  background: linear-gradient(
+    135deg,
+    rgba(15, 32, 53, 0.97),
+    rgba(10, 28, 47, 0.92)
+  );
+
   border-radius: var(--radius);
   overflow: hidden;
   display: grid;
   grid-template-columns: 1.1fr 1fr;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    0 0 60px rgba(34, 224, 201, 0.06);
+
   animation: card-in 500ms ease both;
 }
-
 @keyframes card-in {
   from { opacity: 0; transform: translateY(18px) scale(0.98); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
@@ -434,31 +443,6 @@ body::before {
 }
 
 /* Network dots + connecting lines */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.32;
-
-  background-image:
-    radial-gradient(circle, rgba(34, 224, 201, 0.9) 2px, transparent 3px);
-    
-  background-size:
-    170px 170px,
-    240px 240px,
-    280px 280px;
-
-  animation: network-drift 18s linear infinite;
-}
-
-/* Keep your actual website above the background */
-.card,
-.toast {
-  position: relative;
-  z-index: 1;
-}
 
 /* Moving gradient/blob animation */
 @keyframes glow-float {
