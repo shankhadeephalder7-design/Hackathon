@@ -360,3 +360,44 @@ body {
     flex-direction: column;
   }
 }
+/* Floating labels - Google/Facebook style */
+
+.input-row {
+  position: relative;
+}
+
+.input-row input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px 45px 16px 16px;
+}
+
+/* Label normally sits inside the input */
+.input-row label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+
+  font-size: 16px;
+  opacity: 0.65;
+
+  transition:
+    top 0.2s ease,
+    transform 0.2s ease,
+    font-size 0.2s ease,
+    opacity 0.2s ease,
+    background 0.2s ease;
+}
+
+/* When clicked OR when text exists */
+.input-row input:focus + label,
+.input-row input:not(:placeholder-shown) + label {
+  top: 0;
+  transform: translateY(-50%);
+  font-size: 12px;
+  opacity: 1;
+  background: white;
+  padding: 0 6px;
+}
