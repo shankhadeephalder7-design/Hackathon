@@ -3,7 +3,9 @@
 // and handles: saving new accounts, checking logins, and hashing passwords
 // so real passwords are never stored anywhere.
 
+require('dotenv').config();
 const express = require('express');
+const {MongoClient} = require('mongodb');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
@@ -19,6 +21,15 @@ const PORT = process.env.PORT || 3000;
 const USERS_FILE = path.join(__dirname, 'users.json');
 const SALT_ROUNDS = 10; // how much "scrambling" work goes into hashing each password
 const upload = multer({ storage: multer.memoryStorage() });
+const MONGODB_URI = process.env.MONGODB_URI;
+const client = new MongoClient(MONGODB_URI);
+
+let db;
+async function connectDB() {
+  await client.connect();
+  db = client.db('swiftapply');
+  console.log('✅ Connected to MongoDB');
+}
 
 // ---------- Basic setup ----------
 app.use(express.json());
@@ -31,24 +42,23 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ---------- Tiny "database" (a JSON file) ----------
-// For a real, public website you'd swap this for a real database (Postgres, MongoDB, etc).
-// For learning and small/personal projects, a JSON file is perfectly fine.
-function loadUsers() {
-  if (!fs.existsSync(USERS_FILE)) return [];
-  const raw = fs.readFileSync(USERS_FILE, 'utf-8').trim();
-  if (!raw) return [];
-  return JSON.parse(raw);
+// ---------- MongoDB database ----------
+
+function usersCollection() {
+  return db.collection('users');
 }
 
-function saveUsers(users) {
-  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
-}
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
 
-passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser((id, done) => {
-  const user = loadUsers().find(u => u.id === id);
-  done(null, user || null);
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await usersCollection().findOne({ id });
+    done(null, user || null);
+  } catch (err) {
+    done(err);
+  }
 });
 
 // ---------- Sign up ----------
@@ -59,74 +69,95 @@ app.post('/api/signup', async (req, res) => {
     return res.status(400).json({ error: 'Please fill in every field.' });
   }
 
-  const users = loadUsers();
-  const exists = users.find(u => u.email === email.toLowerCase());
-  if (exists) {
-    return res.status(409).json({ error: 'An account with that email already exists.' });
+  const emailLower = email.toLowerCase();
+
+  try {
+    const exists = await usersCollection().findOne({
+      email: emailLower
+    });
+
+    if (exists) {
+      return res.status(409).json({
+        error: 'An account with that email already exists.'
+      });
+    }
+
+    const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
+
+    const newUser = {
+      id: Date.now().toString(),
+      username,
+      email: emailLower,
+      passwordHash,
+      phone: phone || '',
+      preferences: preferences || [],
+      experience: experience || '',
+      provider: 'local',
+      createdAt: new Date().toISOString()
+    };
+
+    await usersCollection().insertOne(newUser);
+
+    req.login(newUser, () => {
+      res.json({
+        message: 'Account created!',
+        username: newUser.username
+      });
+    });
+
+  } catch (err) {
+    console.error('Signup error:', err);
+    res.status(500).json({
+      error: 'Could not create account.'
+    });
   }
-
-  // This is the important part: we NEVER save the plain password.
-  // bcrypt turns "mypassword123" into something like
-  // "$2b$10$N9qo8uLOickgx2ZMRZoMy..." which cannot be reversed back into the original.
-  const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
-
-  const newUser = {
-    id: Date.now().toString(),
-    username,
-    email: email.toLowerCase(),
-    passwordHash,
-    phone: phone || '',
-    preferences: preferences || [],
-    experience: experience || '',
-    provider: 'local',
-    createdAt: new Date().toISOString()
-  };
-
-  users.push(newUser);
-  saveUsers(users);
-
-  req.login(newUser, () => {
-    res.json({ message: 'Account created!', username: newUser.username });
-  });
 });
 
 // ---------- Log in ----------
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
+
   if (!email || !password) {
-    return res.status(400).json({ error: 'Please fill in every field.' });
+    return res.status(400).json({
+      error: 'Please fill in every field.'
+    });
   }
 
-  const users = loadUsers();
-  const user = users.find(u => u.email === email.toLowerCase());
+  const emailLower = email.toLowerCase();
 
-  if (!user) {
-    return res.status(401).json({ error: 'No account found with that email.' });
+  try {
+    const user = await usersCollection().findOne({
+      email: emailLower
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        error: 'No account found with that email.'
+      });
+    }
+
+    const match = await bcrypt.compare(password, user.passwordHash);
+
+    if (!match) {
+      return res.status(401).json({
+        error: 'Incorrect password.'
+      });
+    }
+
+    req.login(user, () => {
+      res.json({
+        message: 'Welcome back!',
+        username: user.username
+      });
+    });
+
+  } catch (err) {
+    console.error('Login error:', err);
+    res.status(500).json({
+      error: 'Could not log in right now.'
+    });
   }
-
-  // bcrypt.compare re-hashes the typed password and checks it against the stored hash.
-  const match = await bcrypt.compare(password, user.passwordHash);
-  if (!match) {
-    return res.status(401).json({ error: 'Incorrect password.' });
-  }
-
-  req.login(user, () => {
-    res.json({ message: 'Welcome back!', username: user.username });
-  });
 });
-
-app.get('/api/me', (req, res) => {
-  if (req.user) {
-    res.json({ loggedIn: true, username: req.user.username });
-  } else {
-    res.json({ loggedIn: false });
-  }
-});
-
-app.post('/api/logout', (req, res) => {
-  req.logout(() => res.json({ message: 'Logged out' }));
-});
-
 // ---------- Job search (Adzuna) ----------
 app.get('/api/jobs', async (req, res) => {
   const query = req.query.q || 'developer';
@@ -212,6 +243,13 @@ app.post('/api/resume/analyze', upload.single('resume'), async (req, res) => {
 // Until you add keys, the buttons will show a friendly message instead of crashing the app.
 require('./social-login')(app, passport);
 
-app.listen(PORT, () => {
-  console.log(`\n✅ Server running! Open http://localhost:${PORT}/login.html in your browser\n`);
-});
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`\n✅ Server running! Open http://localhost:${PORT}/login.html in your browser\n`);
+    });
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB connection failed:', err);
+    process.exit(1);
+  });
