@@ -48,9 +48,7 @@ body::before {
 }
 
 
-/* =========================================================
-   SECOND LIQUID LAYER
-   ========================================================= */
+/* second layer = flowing blue/green texture */
 
 body::after {
   content: "";
@@ -94,76 +92,6 @@ body::after {
   mix-blend-mode: screen;
 
   animation: liquid-wave 20s ease-in-out infinite alternate;
-}
-
-
-/* =========================================================
-   CARD DIAGONAL GLASS SWEEP
-   ========================================================= */
-
-.card {
-  position: relative;
-  overflow: hidden;
-}
-
-
-/* Full-card diagonal white sweep */
-
-.card::before {
-  content: "";
-
-  position: absolute;
-
-  /* Make the shine much larger than the card */
-  inset: -50%;
-
-  width: 200%;
-  height: 200%;
-
-  pointer-events: none;
-  z-index: 1;
-
-  background:
-    linear-gradient(
-      115deg,
-      transparent 25%,
-      rgba(255, 255, 255, 0.03) 35%,
-      rgba(255, 255, 255, 0.16) 50%,
-      rgba(255, 255, 255, 0.05) 65%,
-      transparent 75%
-    );
-
-  transform: translateX(-30%);
-
-  animation: glass-shine 9s ease-in-out infinite;
-}
-
-
-/* Keep card content above the shine */
-
-.card > * {
-  position: relative;
-  z-index: 2;
-}
-
-
-/* =========================================================
-   GLASS SWEEP ANIMATION
-   ========================================================= */
-
-@keyframes glass-shine {
-
-  0% {
-    transform: translateX(-35%);
-  }
-
-  50% {
-    transform: translateX(35%);
-  }
-
-  100% {
-    transform: translateX(-35%);
-  }
 }
 
 
