@@ -110,7 +110,7 @@ if (loginForm) {
     e.preventDefault();
     submitForm(loginForm, '/api/login', (result) => {
       showToast(result.message);
-      setTimeout(() => (window.location.href = '/welcome.html'), 700);
+      setTimeout(() => (window.location.href = '/resume.html'), 700);
     });
   });
 }
@@ -121,7 +121,7 @@ if (signupForm) {
     e.preventDefault();
     submitForm(signupForm, '/api/signup', (result) => {
       showToast(result.message);
-      setTimeout(() => (window.location.href = '/welcome.html'), 700);
+      setTimeout(() => (window.location.href = '/resume.html'), 700);
     });
   });
 }

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Your Matches</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  body { align-items: flex-start; }
+  .matches-wrap {
+    width: min(900px, 100%);
+    padding: 40px 0;
+  }
+  .job-card {
+    background: var(--navy-panel);
+    border: 1px solid #223a4c;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 18px;
+    animation: card-in 400ms ease both;
+  }
+  .job-card h3 { margin: 0 0 6px; color: var(--ink); }
+  .job-meta { color: var(--ink-dim); font-size: 13px; margin-bottom: 10px; }
+  .company-logo {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #ffffff;
+  }
+  .company-logo img { width: 100%; height: 100%; object-fit: contain; }
+  .logo-fallback {
+    background: linear-gradient(120deg, var(--teal), var(--teal-dim));
+    color: #06231f; font-weight: 700; font-size: 18px;
+  }
+  .match-bar-track {
+    background: #0d1e30;
+    border-radius: 999px;
+    height: 8px;
+    overflow: hidden;
+    margin: 10px 0;
+  }
+  .match-bar-fill {
+    height: 100%;
+    background: linear-gradient(120deg, var(--teal), var(--teal-dim));
+    width: 0%;
+    transition: width 800ms ease;
+  }
+  .loading-text {
+    text-align: center;
+    color: var(--ink-dim);
+    padding: 60px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="matches-wrap">
+  <div class="brand" style="text-align:center; font-size:26px;">SwiftApply</div>
+  <h1 style="text-align:center;">Your Matched Jobs</h1>
+  <div id="loading" class="loading-text">Finding your matches...</div>
+  <div id="job-list"></div>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="matches.js"></script>
+</body>
+</html>

@@ -12,10 +12,13 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
+    "mammoth": "^1.12.3",
+    "multer": "^2.3.0",
     "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0",
     "passport-facebook": "^3.0.0",
-    "passport-linkedin-oauth2": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "passport-linkedin-oauth2": "^2.0.0",
+    "pdfjs-dist": "^3.11.174"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
