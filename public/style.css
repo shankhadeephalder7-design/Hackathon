@@ -1,165 +1,89 @@
 /* =========================================================
-   SWIFTAPPLY — LIQUID GLASS / AURORA UI
-   ========================================================= */
-
-:root {
-  --navy-deep: #020914;
-  --navy-dark: #041526;
-
-  --teal: #22e0c9;
-  --teal-bright: #63fff0;
-  --blue: #159cff;
-
-  --ink: #ffffff;
-  --ink-dim: rgba(255, 255, 255, 0.78);
-
-  --error: #ff8a3d;
-
-  --radius: 22px;
-  --speed: 220ms;
-}
-
-
-/* =========================================================
-   RESET
-   ========================================================= */
-
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  width: 100%;
-  min-height: 100%;
-  margin: 0;
-}
-
-
-/* =========================================================
-   MAIN BACKGROUND
-   ========================================================= */
-
-body {
-  position: relative;
-
-  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-
-  color: var(--ink);
-
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-
-  min-height: 100vh;
-
-  padding: 24px;
-
-  overflow-x: hidden;
-
-  background:
-    radial-gradient(
-      circle at 50% 50%,
-      #09243a 0%,
-      #041526 45%,
-      #020914 100%
-    );
-}
-
-
-/* =========================================================
-   LIQUID AURORA — MAIN LAYER
+   LIQUID AURORA TEXTURE
    ========================================================= */
 
 body::before {
   content: "";
 
   position: fixed;
-
   inset: -25%;
 
   pointer-events: none;
-
   z-index: 0;
 
   background:
-
-    /* Bright cyan liquid */
+    /* bright cyan ribbon */
     radial-gradient(
       ellipse 28% 70% at 12% 35%,
-      rgba(0, 230, 255, 0.44),
+      rgba(0, 230, 255, 0.42),
       transparent 65%
     ),
 
-    /* Green liquid */
+    /* green liquid */
     radial-gradient(
       ellipse 35% 55% at 82% 25%,
-      rgba(0, 255, 190, 0.34),
+      rgba(0, 255, 190, 0.32),
       transparent 68%
     ),
 
-    /* Electric blue */
+    /* electric blue */
     radial-gradient(
       ellipse 30% 60% at 72% 78%,
-      rgba(35, 110, 255, 0.40),
+      rgba(35, 110, 255, 0.36),
       transparent 65%
     ),
 
-    /* Turquoise center */
+    /* turquoise center */
     radial-gradient(
       ellipse 25% 45% at 42% 65%,
-      rgba(0, 220, 190, 0.22),
+      rgba(0, 210, 190, 0.20),
       transparent 70%
     );
 
-  filter: blur(34px);
+  filter: blur(35px);
 
   transform: rotate(-8deg) scale(1.15);
 
-  animation:
-    liquid-flow 16s ease-in-out infinite alternate;
+  animation: liquid-flow 16s ease-in-out infinite alternate;
 }
 
 
 /* =========================================================
-   LIQUID AURORA — SECOND FLOWING LAYER
+   SECOND LIQUID LAYER
    ========================================================= */
 
 body::after {
   content: "";
 
   position: fixed;
-
   inset: -20%;
 
   pointer-events: none;
-
   z-index: 0;
 
   background:
-
-    /* Blue sweeping wave */
+    /* sweeping blue wave */
     linear-gradient(
       125deg,
-      transparent 18%,
-      rgba(0, 180, 255, 0.13) 30%,
-      rgba(0, 255, 220, 0.26) 39%,
-      transparent 52%
+      transparent 20%,
+      rgba(0, 180, 255, 0.16) 32%,
+      rgba(0, 255, 220, 0.25) 40%,
+      transparent 53%
     ),
 
-    /* Green sweeping wave */
+    /* green wave */
     linear-gradient(
       155deg,
-      transparent 40%,
-      rgba(30, 255, 190, 0.17) 49%,
-      rgba(20, 120, 255, 0.25) 57%,
+      transparent 42%,
+      rgba(30, 255, 190, 0.16) 50%,
+      rgba(20, 120, 255, 0.22) 57%,
       transparent 70%
     ),
 
-    /* Lower blue glow */
+    /* blue lower glow */
     radial-gradient(
       ellipse 45% 30% at 25% 85%,
-      rgba(40, 90, 255, 0.30),
+      rgba(40, 90, 255, 0.28),
       transparent 70%
     );
 
@@ -169,13 +93,82 @@ body::after {
 
   mix-blend-mode: screen;
 
-  animation:
-    liquid-wave 20s ease-in-out infinite alternate;
+  animation: liquid-wave 20s ease-in-out infinite alternate;
 }
 
 
 /* =========================================================
-   LIQUID ANIMATION
+   CARD DIAGONAL GLASS SWEEP
+   ========================================================= */
+
+.card {
+  position: relative;
+  overflow: hidden;
+}
+
+
+/* Full-card diagonal white sweep */
+
+.card::before {
+  content: "";
+
+  position: absolute;
+
+  /* Make the shine much larger than the card */
+  inset: -50%;
+
+  width: 200%;
+  height: 200%;
+
+  pointer-events: none;
+  z-index: 1;
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent 25%,
+      rgba(255, 255, 255, 0.03) 35%,
+      rgba(255, 255, 255, 0.16) 50%,
+      rgba(255, 255, 255, 0.05) 65%,
+      transparent 75%
+    );
+
+  transform: translateX(-30%);
+
+  animation: glass-shine 9s ease-in-out infinite;
+}
+
+
+/* Keep card content above the shine */
+
+.card > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================================
+   GLASS SWEEP ANIMATION
+   ========================================================= */
+
+@keyframes glass-shine {
+
+  0% {
+    transform: translateX(-35%);
+  }
+
+  50% {
+    transform: translateX(35%);
+  }
+
+  100% {
+    transform: translateX(-35%);
+  }
+}
+
+
+/* =========================================================
+   LIQUID MOVEMENT
    ========================================================= */
 
 @keyframes liquid-flow {
@@ -231,1345 +224,5 @@ body::after {
       rotate(8deg)
       translate(-20px, 100px)
       scale(1.10);
-  }
-}
-
-
-/* =========================================================
-   MAIN GLASS CARD
-   ========================================================= */
-
-.card {
-  position: relative;
-
-  width: min(880px, 100%);
-
-  min-height: 480px;
-
-  margin-top: 20px;
-
-  display: grid;
-
-  grid-template-columns: 1.1fr 1fr;
-
-  overflow: hidden;
-
-  border-radius: 24px;
-
-  /*
-     Transparent glass.
-     Dark enough for readability,
-     transparent enough for liquid background.
-  */
-  background:
-    rgba(7, 24, 42, 0.54);
-
-  /*
-     WHITE GLASS OUTLINE
-  */
-  border: 1.5px solid rgba(255, 255, 255, 0.48);
-
-  /*
-     Frosted glass
-  */
-  backdrop-filter:
-    blur(25px)
-    saturate(165%);
-
-  -webkit-backdrop-filter:
-    blur(25px)
-    saturate(165%);
-
-  /*
-     Glass depth
-  */
-  box-shadow:
-    0 35px 100px rgba(0, 0, 0, 0.62),
-    0 0 45px rgba(34, 224, 201, 0.10),
-    inset 0 1px 2px rgba(255, 255, 255, 0.34),
-    inset 0 -1px 1px rgba(255, 255, 255, 0.08);
-
-  z-index: 2;
-
-  animation:
-    card-in 650ms ease both;
-}
-
-
-/* =========================================================
-   SUBTLE GLASS REFLECTION
-   ========================================================= */
-
-.card::before {
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  border-radius: inherit;
-
-  background:
-    linear-gradient(
-      120deg,
-      rgba(255, 255, 255, 0.10) 0%,
-      rgba(255, 255, 255, 0.025) 18%,
-      transparent 38%,
-      transparent 70%,
-      rgba(255, 255, 255, 0.055) 100%
-    );
-
-  pointer-events: none;
-
-  z-index: 10;
-}
-
-
-/* =========================================================
-   SECOND SUBTLE HIGHLIGHT
-   ========================================================= */
-
-.card::after {
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 1px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.75),
-      transparent
-    );
-
-  opacity: 0.7;
-
-  pointer-events: none;
-
-  z-index: 11;
-}
-
-
-/* =========================================================
-   CARD ENTRANCE
-   ========================================================= */
-
-@keyframes card-in {
-
-  from {
-    opacity: 0;
-
-    transform:
-      translateY(20px)
-      scale(0.97);
-  }
-
-  to {
-    opacity: 1;
-
-    transform:
-      translateY(0)
-      scale(1);
-  }
-}
-
-
-/* =========================================================
-   LEFT FORM GLASS
-   ========================================================= */
-
-.form-side {
-  position: relative;
-
-  z-index: 3;
-
-  padding: 48px 44px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: center;
-
-  gap: 22px;
-
-  /*
-     Dark glass layer for readability.
-  */
-  background:
-    linear-gradient(
-      135deg,
-      rgba(2, 13, 26, 0.74),
-      rgba(4, 25, 44, 0.58)
-    );
-
-  backdrop-filter: blur(12px);
-
-  -webkit-backdrop-filter: blur(12px);
-
-  border-right:
-    1px solid rgba(255, 255, 255, 0.10);
-}
-
-
-/* =========================================================
-   BRAND
-   ========================================================= */
-
-.brand {
-  font-family:
-    "Space Grotesk",
-    "Segoe UI",
-    sans-serif;
-
-  font-weight: 700;
-
-  font-size: 22px;
-
-  letter-spacing: 0.5px;
-
-  background:
-    linear-gradient(
-      120deg,
-      var(--teal-bright),
-      #6be8ff,
-      #ffffff
-    );
-
-  -webkit-background-clip: text;
-
-  background-clip: text;
-
-  color: transparent;
-
-  margin-bottom: 4px;
-
-  filter:
-    drop-shadow(
-      0 0 12px
-      rgba(34, 224, 201, 0.32)
-    );
-}
-
-
-/* =========================================================
-   PAGE HEADING
-   ========================================================= */
-
-.form-side h1 {
-  margin: 0 0 4px;
-
-  font-size: 30px;
-
-  letter-spacing: 0.2px;
-
-  color: #ffffff;
-
-  text-shadow:
-    0 2px 15px rgba(0, 0, 0, 0.60);
-}
-
-
-/* =========================================================
-   FIELD
-   ========================================================= */
-
-.field {
-  position: relative;
-}
-
-
-.field label {
-  display: block;
-
-  font-size: 13px;
-
-  color:
-    rgba(255, 255, 255, 0.82);
-
-  margin-bottom: 6px;
-}
-
-
-/* =========================================================
-   GLASS INPUT BOX
-   ========================================================= */
-
-.field .input-row {
-  position: relative;
-
-  display: flex;
-
-  align-items: center;
-
-  min-height: 54px;
-
-  padding: 0 14px;
-
-  border-radius: 13px;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.34);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.105),
-      rgba(255, 255, 255, 0.035)
-    );
-
-  box-shadow:
-    inset
-      0 1px 1px
-      rgba(255, 255, 255, 0.12),
-
-    0 5px 18px
-      rgba(0, 0, 0, 0.18);
-
-  transition:
-    border-color var(--speed) ease,
-    background var(--speed) ease,
-    box-shadow var(--speed) ease;
-}
-
-
-.field .input-row:focus-within {
-  border-color:
-    var(--teal-bright);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(34, 224, 201, 0.14),
-      rgba(255, 255, 255, 0.055)
-    );
-
-  box-shadow:
-    0 0 0 2px
-      rgba(34, 224, 201, 0.08),
-
-    0 0 25px
-      rgba(34, 224, 201, 0.16),
-
-    inset
-      0 1px 1px
-      rgba(255, 255, 255, 0.16);
-}
-
-
-/* =========================================================
-   INPUT
-   ========================================================= */
-
-.field input {
-  flex: 1;
-
-  width: 100%;
-
-  background: transparent;
-
-  border: none;
-
-  outline: none;
-
-  color: #ffffff;
-
-  font-size: 15px;
-
-  font-weight: 500;
-
-  padding:
-    16px
-    8px
-    16px
-    0;
-
-  text-shadow:
-    0 1px 5px
-    rgba(0, 0, 0, 0.40);
-}
-
-
-.field input::placeholder {
-  color:
-    rgba(255, 255, 255, 0.65);
-}
-
-
-/* =========================================================
-   AUTOFILL
-   ========================================================= */
-
-.field input:-webkit-autofill,
-.field input:-webkit-autofill:hover,
-.field input:-webkit-autofill:focus {
-  -webkit-text-fill-color: #ffffff;
-
-  transition:
-    background-color
-    9999s
-    ease-in-out
-    0s;
-}
-
-
-/* =========================================================
-   INPUT ICON
-   ========================================================= */
-
-.field .icon {
-  flex-shrink: 0;
-
-  color:
-    rgba(255, 255, 255, 0.84);
-
-  transition:
-    color var(--speed) ease,
-    filter var(--speed) ease;
-}
-
-
-.field .input-row:focus-within .icon {
-  color:
-    var(--teal-bright);
-
-  filter:
-    drop-shadow(
-      0 0 7px
-      rgba(34, 224, 201, 0.55)
-    );
-}
-
-
-/* =========================================================
-   FLOATING LABEL
-   ========================================================= */
-
-.input-row label {
-  position: absolute;
-
-  left: 14px;
-
-  top: 50%;
-
-  transform:
-    translateY(-50%);
-
-  pointer-events: none;
-
-  margin: 0;
-
-  padding: 0 5px;
-
-  font-size: 15px;
-
-  color:
-    rgba(255, 255, 255, 0.74);
-
-  background: transparent;
-
-  transition:
-    top 0.2s ease,
-    transform 0.2s ease,
-    font-size 0.2s ease,
-    color 0.2s ease,
-    background 0.2s ease;
-}
-
-
-.input-row input:focus + label,
-.input-row input:not(:placeholder-shown) + label {
-  top: 0;
-
-  transform:
-    translateY(-50%);
-
-  font-size: 11px;
-
-  font-weight: 600;
-
-  color:
-    var(--teal-bright);
-
-  background:
-    rgba(5, 22, 39, 0.96);
-
-  border-radius: 5px;
-
-  padding:
-    1px 6px;
-
-  text-shadow:
-    0 0 8px
-    rgba(34, 224, 201, 0.25);
-}
-
-
-.input-row input:not(:focus):not(:placeholder-shown) + label {
-  color:
-    rgba(255, 255, 255, 0.84);
-}
-
-
-/* =========================================================
-   ERROR SHAKE
-   ========================================================= */
-
-.field.invalid .input-row {
-  border-color:
-    var(--error);
-
-  animation:
-    shake 380ms ease;
-}
-
-
-@keyframes shake {
-
-  10%,
-  90% {
-    transform:
-      translateX(-2px);
-  }
-
-  20%,
-  80% {
-    transform:
-      translateX(4px);
-  }
-
-  30%,
-  50%,
-  70% {
-    transform:
-      translateX(-7px);
-  }
-
-  40%,
-  60% {
-    transform:
-      translateX(7px);
-  }
-}
-
-
-/* =========================================================
-   ERROR MESSAGE
-   ========================================================= */
-
-.field-error {
-  position: absolute;
-
-  top: -38px;
-
-  left: 0;
-
-  background:
-    rgba(255, 255, 255, 0.97);
-
-  color: #222222;
-
-  font-size: 12.5px;
-
-  padding: 7px 12px;
-
-  border-radius: 7px;
-
-  box-shadow:
-    0 8px 25px
-    rgba(0, 0, 0, 0.35);
-
-  opacity: 0;
-
-  transform:
-    translateY(6px);
-
-  pointer-events: none;
-
-  transition:
-    opacity var(--speed) ease,
-    transform var(--speed) ease;
-
-  z-index: 20;
-}
-
-
-.field.invalid .field-error {
-  opacity: 1;
-
-  transform:
-    translateY(0);
-}
-
-
-.field-error::after {
-  content: "";
-
-  position: absolute;
-
-  bottom: -5px;
-
-  left: 16px;
-
-  width: 10px;
-
-  height: 10px;
-
-  background:
-    rgba(255, 255, 255, 0.97);
-
-  transform:
-    rotate(45deg);
-}
-
-
-/* =========================================================
-   PRIMARY BUTTON
-   ========================================================= */
-
-.btn {
-  position: relative;
-
-  overflow: hidden;
-
-  border: none;
-
-  border-radius: 999px;
-
-  padding: 13px 20px;
-
-  font-size: 15px;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    transform 150ms ease,
-    box-shadow 150ms ease;
-}
-
-
-.btn:active {
-  transform:
-    scale(0.97);
-}
-
-
-.btn-primary {
-  background:
-    linear-gradient(
-      110deg,
-      #69fff0,
-      #22e0c9,
-      #24bfff,
-      #69fff0
-    );
-
-  background-size:
-    250% 100%;
-
-  color: #04221f;
-
-  box-shadow:
-    0 10px 28px
-      rgba(34, 224, 201, 0.35),
-
-    0 0 20px
-      rgba(34, 224, 201, 0.12),
-
-    inset
-      0 1px 2px
-      rgba(255, 255, 255, 0.55);
-
-  animation:
-    button-flow 5s
-    ease-in-out
-    infinite;
-}
-
-
-@keyframes button-flow {
-
-  0% {
-    background-position:
-      0% 50%;
-  }
-
-  50% {
-    background-position:
-      100% 50%;
-  }
-
-  100% {
-    background-position:
-      0% 50%;
-  }
-}
-
-
-.btn-primary:hover {
-  transform:
-    translateY(-1px);
-
-  box-shadow:
-    0 14px 35px
-      rgba(34, 224, 201, 0.48),
-
-    0 0 30px
-      rgba(34, 224, 201, 0.20);
-}
-
-
-.btn-primary.loading {
-  color: transparent;
-}
-
-
-.btn-primary.loading::after {
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  margin: auto;
-
-  width: 18px;
-
-  height: 18px;
-
-  border:
-    2.5px solid
-    rgba(6, 35, 31, 0.35);
-
-  border-top-color:
-    #06231f;
-
-  border-radius: 50%;
-
-  animation:
-    spin 700ms
-    linear
-    infinite;
-}
-
-
-@keyframes spin {
-
-  to {
-    transform:
-      rotate(360deg);
-  }
-}
-
-
-/* =========================================================
-   BUTTON RIPPLE
-   ========================================================= */
-
-.ripple {
-  position: absolute;
-
-  border-radius: 50%;
-
-  background:
-    rgba(255, 255, 255, 0.48);
-
-  transform:
-    scale(0);
-
-  animation:
-    ripple 550ms
-    ease-out;
-
-  pointer-events: none;
-}
-
-
-@keyframes ripple {
-
-  to {
-    transform:
-      scale(2.6);
-
-    opacity: 0;
-  }
-}
-
-
-/* =========================================================
-   SIGNUP / LOGIN SWITCH
-   ========================================================= */
-
-.switch-line {
-  font-size: 14px;
-
-  color:
-    rgba(255, 255, 255, 0.84);
-
-  text-shadow:
-    0 1px 5px
-    rgba(0, 0, 0, 0.35);
-}
-
-
-.switch-line a {
-  color:
-    var(--teal-bright);
-
-  text-decoration: none;
-
-  font-weight: 700;
-
-  text-shadow:
-    0 0 10px
-    rgba(34, 224, 201, 0.25);
-}
-
-
-.switch-line a:hover {
-  text-decoration:
-    underline;
-}
-
-
-/* =========================================================
-   DIVIDER
-   ========================================================= */
-
-.divider {
-  display: flex;
-
-  align-items: center;
-
-  gap: 12px;
-
-  color:
-    rgba(255, 255, 255, 0.74);
-
-  font-size: 12.5px;
-
-  text-shadow:
-    0 1px 4px
-    rgba(0, 0, 0, 0.35);
-}
-
-
-.divider::before,
-.divider::after {
-  content: "";
-
-  flex: 1;
-
-  height: 1px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.35),
-      transparent
-    );
-}
-
-
-/* =========================================================
-   SOCIAL BUTTONS
-   ========================================================= */
-
-.social-row {
-  display: flex;
-
-  gap: 12px;
-}
-
-
-.social-btn {
-  flex: 1;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  gap: 8px;
-
-  padding: 11px;
-
-  border-radius: 10px;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.30);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.095),
-      rgba(255, 255, 255, 0.035)
-    );
-
-  color: #ffffff;
-
-  font-size: 13px;
-
-  font-weight: 500;
-
-  cursor: pointer;
-
-  backdrop-filter:
-    blur(8px);
-
-  -webkit-backdrop-filter:
-    blur(8px);
-
-  box-shadow:
-    inset
-      0 1px 1px
-      rgba(255, 255, 255, 0.10);
-
-  transition:
-    background var(--speed) ease,
-    transform 150ms ease,
-    border-color var(--speed) ease,
-    box-shadow var(--speed) ease;
-}
-
-
-.social-btn:hover {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(34, 224, 201, 0.16),
-      rgba(255, 255, 255, 0.07)
-    );
-
-  border-color:
-    rgba(34, 224, 201, 0.65);
-
-  transform:
-    translateY(-2px);
-
-  box-shadow:
-    0 8px 20px
-      rgba(0, 0, 0, 0.20),
-
-    0 0 15px
-      rgba(34, 224, 201, 0.10);
-}
-
-
-.social-btn svg {
-  width: 18px;
-
-  height: 18px;
-}
-
-
-/* =========================================================
-   RIGHT LIQUID GLASS PANEL
-   ========================================================= */
-
-.side-panel {
-  position: relative;
-
-  z-index: 3;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  padding: 40px;
-
-  overflow: hidden;
-
-  background:
-
-    /* White reflection */
-    radial-gradient(
-      circle at 70% 18%,
-      rgba(255, 255, 255, 0.34),
-      transparent 26%
-    ),
-
-    /* Blue liquid */
-    radial-gradient(
-      circle at 20% 82%,
-      rgba(25, 145, 255, 0.42),
-      transparent 35%
-    ),
-
-    /* Green liquid */
-    radial-gradient(
-      circle at 80% 75%,
-      rgba(0, 255, 205, 0.30),
-      transparent 38%
-    ),
-
-    /* Main glass */
-    linear-gradient(
-      145deg,
-      rgba(78, 255, 225, 0.60),
-      rgba(23, 193, 166, 0.48),
-      rgba(35, 123, 255, 0.40)
-    );
-
-  border-left:
-    1px solid
-    rgba(255, 255, 255, 0.30);
-
-  clip-path:
-    polygon(
-      18% 0,
-      100% 0,
-      100% 100%,
-      0% 100%
-    );
-
-  backdrop-filter:
-    blur(18px)
-    saturate(165%);
-
-  -webkit-backdrop-filter:
-    blur(18px)
-    saturate(165%);
-}
-
-
-/* =========================================================
-   RIGHT PANEL LIQUID LIGHT 1
-   ========================================================= */
-
-.side-panel::before {
-  content: "";
-
-  position: absolute;
-
-  width: 340px;
-
-  height: 340px;
-
-  top: -100px;
-
-  right: -100px;
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.36),
-      rgba(95, 255, 226, 0.20) 35%,
-      transparent 72%
-    );
-
-  filter:
-    blur(14px);
-
-  animation:
-    panel-glow-one 9s
-    ease-in-out
-    infinite alternate;
-}
-
-
-/* =========================================================
-   RIGHT PANEL LIQUID LIGHT 2
-   ========================================================= */
-
-.side-panel::after {
-  content: "";
-
-  position: absolute;
-
-  width: 310px;
-
-  height: 310px;
-
-  left: 0;
-
-  bottom: -130px;
-
-  border-radius: 50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(45, 120, 255, 0.45),
-      rgba(0, 255, 210, 0.20) 40%,
-      transparent 72%
-    );
-
-  filter:
-    blur(18px);
-
-  animation:
-    panel-glow-two 11s
-    ease-in-out
-    infinite alternate;
-}
-
-
-@keyframes panel-glow-one {
-
-  from {
-    transform:
-      translate(0, 0)
-      scale(1);
-  }
-
-  to {
-    transform:
-      translate(-90px, 100px)
-      scale(1.25);
-  }
-}
-
-
-@keyframes panel-glow-two {
-
-  from {
-    transform:
-      translate(0, 0)
-      scale(1);
-  }
-
-  to {
-    transform:
-      translate(80px, -70px)
-      scale(1.22);
-  }
-}
-
-
-/* =========================================================
-   WELCOME CONTENT
-   ========================================================= */
-
-.side-panel .content {
-  position: relative;
-
-  z-index: 5;
-
-  color:
-    #063d36;
-
-  text-align: right;
-
-  max-width: 260px;
-
-  text-shadow:
-    0 1px 5px
-    rgba(255, 255, 255, 0.38);
-}
-
-
-.side-panel h2 {
-  font-size: 32px;
-
-  line-height: 1.15;
-
-  margin: 0 0 12px;
-
-  font-weight: 750;
-}
-
-
-.side-panel p {
-  font-size: 14px;
-
-  line-height: 1.5;
-
-  opacity: 0.92;
-
-  margin: 0;
-}
-
-
-/* =========================================================
-   TOAST
-   ========================================================= */
-
-.toast {
-  position: fixed;
-
-  bottom: 28px;
-
-  left: 50%;
-
-  transform:
-    translate(-50%, 20px);
-
-  background:
-    rgba(5, 22, 38, 0.90);
-
-  border:
-    1px solid
-    rgba(34, 224, 201, 0.55);
-
-  color: #ffffff;
-
-  padding: 12px 20px;
-
-  border-radius: 10px;
-
-  font-size: 14px;
-
-  opacity: 0;
-
-  transition:
-    opacity var(--speed) ease,
-    transform var(--speed) ease;
-
-  pointer-events: none;
-
-  backdrop-filter:
-    blur(14px);
-
-  -webkit-backdrop-filter:
-    blur(14px);
-
-  box-shadow:
-    0 10px 30px
-    rgba(0, 0, 0, 0.40);
-
-  z-index: 100;
-}
-
-
-.toast.show {
-  opacity: 1;
-
-  transform:
-    translate(-50%, 0);
-}
-
-
-.toast.error {
-  border-color:
-    var(--error);
-}
-
-
-/* =========================================================
-   TABLET
-   ========================================================= */
-
-@media (max-width: 720px) {
-
-  body {
-    padding: 16px;
-  }
-
-  .card {
-    width: 100%;
-
-    min-height: auto;
-
-    margin-top: 0;
-
-    grid-template-columns: 1fr;
-
-    border-radius: 20px;
-  }
-
-  .side-panel {
-    display: none;
-  }
-
-  .form-side {
-    padding: 36px 24px;
-
-    background:
-      linear-gradient(
-        135deg,
-        rgba(2, 13, 26, 0.78),
-        rgba(4, 25, 44, 0.64)
-      );
-  }
-
-  body::before {
-    inset: -35%;
-  }
-
-  body::after {
-    inset: -30%;
-  }
-}
-
-
-/* =========================================================
-   SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 480px) {
-
-  body {
-    padding: 12px;
-  }
-
-  .card {
-    border-radius: 18px;
-  }
-
-  .form-side {
-    padding: 30px 20px;
-
-    gap: 20px;
-  }
-
-  .form-side h1 {
-    font-size: 28px;
-  }
-
-  .social-row {
-    flex-direction: column;
-
-    gap: 9px;
-  }
-
-  .social-btn {
-    min-height: 44px;
-  }
-
-  .field .input-row {
-    min-height: 52px;
-  }
-
-  .field input {
-    font-size: 15px;
-  }
-
-  .input-row label {
-    font-size: 14px;
-  }
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-
-    animation-iteration-count: 1 !important;
-
-    transition-duration: 0.01ms !important;
   }
 }
