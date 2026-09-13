@@ -127,6 +127,32 @@ app.post('/api/logout', (req, res) => {
 // These only turn on if you've added real API keys in a .env file.
 // See README.md -> "Turning on Google/Facebook/LinkedIn sign-in" for the exact steps.
 // Until you add keys, the buttons will show a friendly message instead of crashing the app.
+// ---------- Job search (Adzuna) ----------
+app.get('/api/jobs', async (req, res) => {
+  const query = req.query.q || 'developer';
+  const country = 'gb'; // Adzuna's free tier covers gb, us, in, and others — we'll adjust if needed
+
+  const url = `https://api.adzuna.com/v1/api/jobs/${country}/search/1?app_id=${process.env.ADZUNA_APP_ID}&app_key=${process.env.ADZUNA_APP_KEY}&results_per_page=10&what=${encodeURIComponent(query)}&content-type=application/json`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const jobs = (data.results || []).map(job => ({
+      title: job.title,
+      company: job.company?.display_name || 'Unknown company',
+      location: job.location?.display_name || 'Not specified',
+      description: job.description,
+      url: job.redirect_url,
+      salary: job.salary_min ? `£${Math.round(job.salary_min)} - £${Math.round(job.salary_max)}` : 'Not listed'
+    }));
+
+    res.json({ jobs });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Could not fetch jobs right now.' });
+  }
+});
 require('./social-login')(app, passport);
 
 app.listen(PORT, () => {
