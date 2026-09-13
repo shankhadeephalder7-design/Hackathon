@@ -130,7 +130,7 @@ app.post('/api/logout', (req, res) => {
 // ---------- Job search (Adzuna) ----------
 app.get('/api/jobs', async (req, res) => {
   const query = req.query.q || 'developer';
-  const country = 'gb'; // Adzuna's free tier covers gb, us, in, and others — we'll adjust if needed
+  const country = 'in'; // Adzuna's free tier covers gb, us, in, and others — we'll adjust if needed
 
   const url = `https://api.adzuna.com/v1/api/jobs/${country}/search/1?app_id=${process.env.ADZUNA_APP_ID}&app_key=${process.env.ADZUNA_APP_KEY}&results_per_page=10&what=${encodeURIComponent(query)}&content-type=application/json`;
 
@@ -144,7 +144,7 @@ app.get('/api/jobs', async (req, res) => {
       location: job.location?.display_name || 'Not specified',
       description: job.description,
       url: job.redirect_url,
-      salary: job.salary_min ? `£${Math.round(job.salary_min)} - £${Math.round(job.salary_max)}` : 'Not listed'
+      salary: job.salary_min ? `₹${Math.round(job.salary_min)} - ₹${Math.round(job.salary_max)}` : 'Not listed'
     }));
 
     res.json({ jobs });
